@@ -10,8 +10,20 @@ namespace AcademicLife.Data
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-            : base(options)
+        public DbSet<University> Universities { get; set; }
+        public DbSet<Teacher> Teachers { get; set; }
+        public DbSet<Subject> Subjects { get; set; }
+        public DbSet<Institute> Institutes { get; set; }
+        public DbSet<Lesson> Lessons { get; set; }
+        public DbSet<DayOfClass> DayOfClasses { get; set; }
+        public DbSet<StudentCourse> StudentCourses { get; set; }
+        public DbSet<Semester> Semesters { get; set; }
+        public DbSet<Course> Courses { get; set; }
+        public DbSet<CurricularGrade> CurricularGrades { get; set; }
+        public DbSet<Classroom> Classrooms { get; set; }
+        public DbSet<ClassDay> ClassDays { get; set; }
+
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options): base(options)
         {
         }
 
