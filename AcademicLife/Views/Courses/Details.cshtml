@@ -1,0 +1,73 @@
+﻿@model AcademicLife.Models.Course
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Course</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Code)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Code)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.StandardAmountSemesters)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.StandardAmountSemesters)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.MaximumAmountSemesters)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.MaximumAmountSemesters)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CourseRequiredWorkload)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CourseRequiredWorkload)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ElectiveRequiredWorkload)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ElectiveRequiredWorkload)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.FlexibleRequiredWorkload)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.FlexibleRequiredWorkload)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.TccRequiredWorkload)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.TccRequiredWorkload)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

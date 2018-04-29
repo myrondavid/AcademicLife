@@ -5,11 +5,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using AcademicLife.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AcademicLife.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
+        
         public IActionResult Index()
         {
             return View();

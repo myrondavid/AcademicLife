@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using AcademicLife.Data;
 using AcademicLife.Models;
 using AcademicLife.Services;
+using Microsoft.AspNetCore.Mvc.Authorization;
 
 namespace AcademicLife
 {
@@ -26,6 +27,8 @@ namespace AcademicLife
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddMvc();
+
             //services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddDbContext<ApplicationDbContext>(options => options.UseMySql("Server=localhost;DataBase=academicLife;Uid=root;Pwd=myron"));
 
@@ -36,7 +39,6 @@ namespace AcademicLife
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
 
-            services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

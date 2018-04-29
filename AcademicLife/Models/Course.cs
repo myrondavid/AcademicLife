@@ -19,8 +19,5 @@ namespace AcademicLife.Models
         public int FlexibleRequiredWorkload { get; set; }
         public int TccRequiredWorkload { get; set; }
         public CurricularGrade OfficialCurricularGrade { get; set; }
-
-
-
     }
 }

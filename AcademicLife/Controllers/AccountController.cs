@@ -220,7 +220,17 @@ namespace AcademicLife.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser
+                {
+                    UserName = model.Email,
+                    Email = model.Email,
+                    Name = model.Name,
+                    Cpf = model.Cpf,
+                    BornDate = model.BornDate,
+                    Gender = model.Gender,
+                    Courses = new List<Course>(),
+                    
+                };
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {

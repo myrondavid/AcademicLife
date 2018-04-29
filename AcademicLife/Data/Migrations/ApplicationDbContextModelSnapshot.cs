@@ -33,7 +33,7 @@ namespace AcademicLife.Data.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
 
-                    b.Property<int>("Cpf");
+                    b.Property<string>("Cpf");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256);
@@ -59,8 +59,6 @@ namespace AcademicLife.Data.Migrations
                     b.Property<string>("PhoneNumber");
 
                     b.Property<bool>("PhoneNumberConfirmed");
-
-                    b.Property<int>("Registration");
 
                     b.Property<string>("SecurityStamp");
 
@@ -140,6 +138,8 @@ namespace AcademicLife.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<string>("ApplicationUserId");
+
                     b.Property<string>("Code");
 
                     b.Property<int>("CourseRequiredWorkload");
@@ -163,6 +163,8 @@ namespace AcademicLife.Data.Migrations
                     b.Property<int>("TccRequiredWorkload");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ApplicationUserId");
 
                     b.HasIndex("InstituteProviderId");
 
@@ -278,6 +280,8 @@ namespace AcademicLife.Data.Migrations
                     b.Property<int?>("CurrentSemesterId");
 
                     b.Property<string>("StudentId");
+
+                    b.Property<int>("StudentRegistration");
 
                     b.HasKey("Id");
 
@@ -469,6 +473,10 @@ namespace AcademicLife.Data.Migrations
 
             modelBuilder.Entity("AcademicLife.Models.Course", b =>
                 {
+                    b.HasOne("AcademicLife.Models.ApplicationUser")
+                        .WithMany("Courses")
+                        .HasForeignKey("ApplicationUserId");
+
                     b.HasOne("AcademicLife.Models.Institute", "InstituteProvider")
                         .WithMany()
                         .HasForeignKey("InstituteProviderId");

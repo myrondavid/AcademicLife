@@ -23,5 +23,23 @@ namespace AcademicLife.Models.AccountViewModels
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
+        [Required]
+        [Display(Name = "Nome")]
+        public string Name { get; set; }
+
+        public int Registration { get; set; }
+
+        [Required]
+        public string Cpf { get; set; }
+
+        [Required]
+        [Display(Name = "Data de Nascimento")]
+        [DataType(DataType.Date)]
+        public DateTime BornDate { get; set; }
+
+        [Required]
+        [Display(Name = "Genero: ")]
+        public Gender Gender { get; set; }
     }
 }
