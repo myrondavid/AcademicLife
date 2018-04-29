@@ -12,9 +12,10 @@ using System;
 namespace AcademicLife.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180429145224_ChangeOnStudentCourse")]
+    partial class ChangeOnStudentCourse
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -275,7 +276,7 @@ namespace AcademicLife.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("CourseId");
+                    b.Property<int?>("CourseId");
 
                     b.Property<int?>("CurrentSemesterId");
 
@@ -526,8 +527,7 @@ namespace AcademicLife.Data.Migrations
                 {
                     b.HasOne("AcademicLife.Models.Course", "Course")
                         .WithMany()
-                        .HasForeignKey("CourseId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("CourseId");
 
                     b.HasOne("AcademicLife.Models.Semester", "CurrentSemester")
                         .WithMany()

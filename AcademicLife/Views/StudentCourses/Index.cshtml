@@ -1,0 +1,52 @@
+﻿@model IEnumerable<AcademicLife.Models.StudentCourse>
+
+@{
+    ViewData["Title"] = "Meus Cursos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Meus Cursos</h2>
+
+<p>
+    <a asp-action="Create" class="btn btn-default">Se cadastrar em novo curso</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @*@Html.DisplayNameFor(model => model.StudentRegistration)*@
+                Matricula
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.Course.Code)*@
+                Código do curso
+            </th>
+            <th>
+                @* @Html.DisplayNameFor(model => model.Course.Name)*@
+                Curso
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.StudentRegistration
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Course.Code)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Course.Name)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

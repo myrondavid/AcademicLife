@@ -41,18 +41,29 @@ namespace AcademicLife.Controllers
         // GET: UserCourses/Create
         public ActionResult Create()
         {
-            return View();
+
+            return View("AddCourse", _context.Courses);
         }
 
         // POST: UserCourses/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(int courseId)
         {
             try
             {
-                // TODO: Add insert logic here
-
+                var currentUser = _context.Users.FirstOrDefault(u => u.UserName == User.Identity.Name);
+                var course = _context.Courses.Find(courseId);
+                if (course != null && currentUser != null)
+                {
+                    var newUserCourse = new StudentCourse()
+                    {
+                        Course = course,
+                        Student = currentUser
+                    };
+                    _context.StudentCourses.Add(newUserCourse);
+                    _context.SaveChanges();
+                }
                 return RedirectToAction(nameof(Index));
             }
             catch

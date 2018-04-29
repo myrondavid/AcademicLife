@@ -53,12 +53,18 @@
             <a class="navbar-brand" title="Academic Life" href="/">Academic Life</a>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li class="active">
+                    <li class="">
                         <a href="/">
-                            <i class="glyphicon glyphicon-home" ></i>
+                            <i class="glyphicon glyphicon-home"></i>
                             Home
                         </a>
-                    </li>  
+                    </li>
+                    <li class="">
+                        <a href="/courses">
+                            <i class="glyphicon glyphicon-cog"></i>
+                            Gerência
+                        </a>
+                    </li>
                 </ul>
                 @await Html.PartialAsync("_LoginPartial")
             </div>
