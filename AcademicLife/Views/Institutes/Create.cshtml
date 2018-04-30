@@ -1,4 +1,4 @@
-﻿@model AcademicLife.Models.Institute
+﻿@model AcademicLife.Models.InstituteViewModels.InstituteViewModel
 
 @{
     ViewData["Title"] = "Create";
@@ -22,6 +22,16 @@
                 <label asp-for="Name" class="control-label"></label>
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UniversityProviderId" class="control-label"></label>
+                <select asp-for="UniversityProviderId" class="form-control">
+                    @foreach (var m in Model.Universities)
+                    {
+                        <option id="@m.Id" value="@m.Id">@m.Code | @m.Name</option>
+                    }
+                </select>
+                <span asp-validation-for="UniversityProvider" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-default" />

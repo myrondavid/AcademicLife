@@ -12,9 +12,10 @@ using System;
 namespace AcademicLife.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180430204539_AddStudentClassroomToDB")]
+    partial class AddStudentClassroomToDB
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -28,7 +29,7 @@ namespace AcademicLife.Data.Migrations
 
                     b.Property<string>("Description");
 
-                    b.Property<int?>("MarkId");
+                    b.Property<int?>("GradeId");
 
                     b.Property<string>("Name");
 
@@ -36,7 +37,7 @@ namespace AcademicLife.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("MarkId");
+                    b.HasIndex("GradeId");
 
                     b.ToTable("AcademicActivities");
                 });
@@ -116,9 +117,13 @@ namespace AcademicLife.Data.Migrations
 
                     b.Property<TimeSpan>("InitialTime");
 
+                    b.Property<int?>("StudentClassroomId");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ClassroomId");
+
+                    b.HasIndex("StudentClassroomId");
 
                     b.ToTable("ClassDays");
                 });
@@ -217,13 +222,9 @@ namespace AcademicLife.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("ClassDayId");
-
-                    b.Property<int>("ClassroomStudentId");
-
                     b.Property<DateTime>("DateOfLessons");
 
-                    b.Property<int?>("StudentClassroomId");
+                    b.Property<int>("StudentClassroomId");
 
                     b.Property<int>("StudentId");
 
@@ -233,15 +234,27 @@ namespace AcademicLife.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ClassDayId");
-
-                    b.HasIndex("ClassroomStudentId");
-
                     b.HasIndex("StudentClassroomId");
 
                     b.HasIndex("StudentId1");
 
                     b.ToTable("DayOfClasses");
+                });
+
+            modelBuilder.Entity("AcademicLife.Models.Grade", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Description");
+
+                    b.Property<decimal>("GradePontuation");
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Grades");
                 });
 
             modelBuilder.Entity("AcademicLife.Models.Institute", b =>
@@ -278,26 +291,6 @@ namespace AcademicLife.Data.Migrations
                     b.ToTable("Lessons");
                 });
 
-            modelBuilder.Entity("AcademicLife.Models.Mark", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Description");
-
-                    b.Property<decimal>("MarkPontuation");
-
-                    b.Property<string>("Name");
-
-                    b.Property<int?>("StudentClassroomId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("StudentClassroomId");
-
-                    b.ToTable("Grades");
-                });
-
             modelBuilder.Entity("AcademicLife.Models.Semester", b =>
                 {
                     b.Property<int>("Id")
@@ -330,8 +323,6 @@ namespace AcademicLife.Data.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<int>("ClassroomId");
-
-                    b.Property<string>("Description");
 
                     b.Property<int>("StudentId");
 
@@ -527,9 +518,9 @@ namespace AcademicLife.Data.Migrations
 
             modelBuilder.Entity("AcademicLife.Models.AcademicActivity", b =>
                 {
-                    b.HasOne("AcademicLife.Models.Mark")
+                    b.HasOne("AcademicLife.Models.Grade")
                         .WithMany("Activities")
-                        .HasForeignKey("MarkId");
+                        .HasForeignKey("GradeId");
                 });
 
             modelBuilder.Entity("AcademicLife.Models.ApplicationUser", b =>
@@ -544,6 +535,10 @@ namespace AcademicLife.Data.Migrations
                     b.HasOne("AcademicLife.Models.Classroom")
                         .WithMany("ClassDays")
                         .HasForeignKey("ClassroomId");
+
+                    b.HasOne("AcademicLife.Models.StudentClassroom")
+                        .WithMany("StudentClassDays")
+                        .HasForeignKey("StudentClassroomId");
                 });
 
             modelBuilder.Entity("AcademicLife.Models.Classroom", b =>
@@ -585,19 +580,10 @@ namespace AcademicLife.Data.Migrations
 
             modelBuilder.Entity("AcademicLife.Models.DayOfClass", b =>
                 {
-                    b.HasOne("AcademicLife.Models.ClassDay", "DayOfClassDay")
+                    b.HasOne("AcademicLife.Models.Classroom", "StudentClassroom")
                         .WithMany()
-                        .HasForeignKey("ClassDayId")
+                        .HasForeignKey("StudentClassroomId")
                         .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("AcademicLife.Models.Classroom", "ClassroomStudent")
-                        .WithMany()
-                        .HasForeignKey("ClassroomStudentId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("AcademicLife.Models.StudentClassroom")
-                        .WithMany("StudentDayOfClasses")
-                        .HasForeignKey("StudentClassroomId");
 
                     b.HasOne("AcademicLife.Models.ApplicationUser", "Student")
                         .WithMany()
@@ -617,13 +603,6 @@ namespace AcademicLife.Data.Migrations
                     b.HasOne("AcademicLife.Models.DayOfClass")
                         .WithMany("Lessons")
                         .HasForeignKey("DayOfClassId");
-                });
-
-            modelBuilder.Entity("AcademicLife.Models.Mark", b =>
-                {
-                    b.HasOne("AcademicLife.Models.StudentClassroom")
-                        .WithMany("StudentMarks")
-                        .HasForeignKey("StudentClassroomId");
                 });
 
             modelBuilder.Entity("AcademicLife.Models.Semester", b =>

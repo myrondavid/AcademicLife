@@ -22,6 +22,9 @@ namespace AcademicLife.Data
         public DbSet<CurricularGrade> CurricularGrades { get; set; }
         public DbSet<Classroom> Classrooms { get; set; }
         public DbSet<ClassDay> ClassDays { get; set; }
+        public DbSet<AcademicActivity> AcademicActivities { get; set; }
+        public DbSet<Mark> Grades { get; set; }
+        public DbSet<StudentClassroom> StudentClassrooms { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options): base(options)
         {
@@ -31,6 +34,8 @@ namespace AcademicLife.Data
         {
             base.OnModelCreating(builder);
             builder.Entity<ApplicationUser>().HasMany(c => c.Courses);
+            builder.Entity<Course>().HasMany(c => c.Users);
+            builder.Entity<Mark>().HasMany(a => a.Activities);
 
         }
     }

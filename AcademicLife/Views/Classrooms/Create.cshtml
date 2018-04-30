@@ -1,0 +1,77 @@
+﻿@model AcademicLife.Models.ClassroomViewModels.ClassroomViewModel
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Create</h2>
+
+<h4>Classroom</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Code" class="control-label"></label>
+                <input asp-for="Code" class="form-control" />
+                <span asp-validation-for="Code" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ClassLocation" class="control-label"></label>
+                <input asp-for="ClassLocation" class="form-control" />
+                <span asp-validation-for="ClassLocation" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ClassSubjectId" class="control-label"></label>
+                <select asp-for="ClassSubjectId" class="form-control">
+                    @foreach (var m in Model.Subjects)
+                    {
+                        <option id="@m.Id" value="@m.Id">@m.Code | @m.Name</option>
+                    }
+                </select>
+            </div>
+            <div class="form-group">
+                <label asp-for="ClassTeacherId" class="control-label"></label>
+                <select asp-for="ClassTeacherId" class="form-control">
+                    @foreach (var m in Model.Teachers)
+                    {
+                        <option id="@m.Id" value="@m.Id">@m.Name</option>
+                    }
+                </select>
+            </div>
+            <div class="form-group">
+                <label asp-for="InstituteProviderId" class="control-label"></label>
+                <select asp-for="InstituteProviderId" class="form-control">
+                    @foreach (var m in Model.Institutes)
+                    {
+                        <option id="@m.Id" value="@m.Id">@m.Code | @m.Name | @m.UniversityProvider.Code</option>
+                    }
+                </select>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="IsOfficial" /> @Html.DisplayNameFor(model => model.IsOfficial)
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="IsActive" /> @Html.DisplayNameFor(model => model.IsActive)
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

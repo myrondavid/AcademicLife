@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace AcademicLife.Models
+namespace AcademicLife.Models.InstituteViewModels
 {
-    public class Institute
+    public class InstituteViewModel
     {
-        public int Id { get; set; }
         public string Code { get; set; }
         public string Name { get; set; }
         public int UniversityProviderId { get; set; }
         public University UniversityProvider { get; set; }
+
+        public List<University> Universities { get; set; }
     }
 }

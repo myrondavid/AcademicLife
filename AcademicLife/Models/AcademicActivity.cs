@@ -5,11 +5,11 @@ using System.Threading.Tasks;
 
 namespace AcademicLife.Models
 {
-    public class Lesson
+    public class AcademicActivity
     {
         public int Id { get; set; }
-        public string Content { get; set; }
-        private const int lessonWorkload = 1;
-        public int LessonWorkload { get { return lessonWorkload; } }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public decimal Pontuation { get; set; }
     }
 }

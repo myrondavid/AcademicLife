@@ -3,19 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace AcademicLife.Models
+namespace AcademicLife.Models.SubjectViewModels
 {
-    //disciplina
-    public class Subject
+    public class SubjectViewModel
     {
-        public int Id { get; set; }
+        public List<Institute> Institutes { get; set; }
+
         public string Code { get; set; }
+
         public string Name { get; set; }
+
         public int Workload { get; set; }
+
         public bool IsRequired { get; set; }
 
         public int InstituteProviderId { get; set; }
-        public Institute InstituteProvider { get; set; }
 
+        public Institute InstituteProvider { get; set; }
     }
 }

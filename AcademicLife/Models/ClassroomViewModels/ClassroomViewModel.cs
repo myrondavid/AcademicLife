@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace AcademicLife.Models
+namespace AcademicLife.Models.ClassroomViewModels
 {
-    //turma
-    public class Classroom
+    public class ClassroomViewModel
     {
-        public int Id { get; set; }
+        [Required]
         public string Code { get; set; }
+
         public string ClassLocation { get; set; }
 
         public Subject ClassSubject { get; set; }
@@ -27,10 +28,8 @@ namespace AcademicLife.Models
 
         public bool IsActive { get; set; }
 
-        public Classroom()
-        {
-
-        }
-
+        public List<Subject> Subjects { get; set; }
+        public List<Teacher> Teachers { get; set; }
+        public List<Institute> Institutes { get; set; }
     }
 }

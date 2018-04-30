@@ -7,16 +7,20 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AcademicLife.Data;
 using AcademicLife.Models;
+using AcademicLife.Models.SubjectViewModels;
+using Microsoft.AspNetCore.Identity;
 
 namespace AcademicLife.Controllers
 {
     public class SubjectsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _user;
 
-        public SubjectsController(ApplicationDbContext context)
+        public SubjectsController(ApplicationDbContext context, UserManager<ApplicationUser> user)
         {
             _context = context;
+            _user = user;
         }
 
         // GET: Subjects
@@ -46,7 +50,12 @@ namespace AcademicLife.Controllers
         // GET: Subjects/Create
         public IActionResult Create()
         {
-            return View();
+            var institutes = _context.Institutes.ToList();
+            var model = new SubjectViewModel()
+            {
+                Institutes = institutes,
+            };
+            return View(model);
         }
 
         // POST: Subjects/Create
@@ -54,15 +63,24 @@ namespace AcademicLife.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Code,Name,Workload,IsRequired")] Subject subject)
+        public async Task<IActionResult> Create(SubjectViewModel model)
         {
+            var subject = new Subject()
+            {
+                Code = model.Code,
+                Name = model.Name,
+                Workload = model.Workload,
+                IsRequired = model.IsRequired,
+                InstituteProvider = _context.Institutes.Find(model.InstituteProviderId)
+            };
+
             if (ModelState.IsValid)
             {
                 _context.Add(subject);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(subject);
+            return View(model);
         }
 
         // GET: Subjects/Edit/5

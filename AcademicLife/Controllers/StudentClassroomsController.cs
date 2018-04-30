@@ -7,26 +7,26 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AcademicLife.Data;
 using AcademicLife.Models;
-using AcademicLife.Models.InstituteViewModels;
 
 namespace AcademicLife.Controllers
 {
-    public class InstitutesController : Controller
+    public class StudentClassroomsController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public InstitutesController(ApplicationDbContext context)
+        public StudentClassroomsController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: Institutes
+        // GET: StudentClassrooms
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Institutes.ToListAsync());
+            var applicationDbContext = _context.StudentClassrooms.Include(s => s.Classroom);
+            return View(await applicationDbContext.ToListAsync());
         }
 
-        // GET: Institutes/Details/5
+        // GET: StudentClassrooms/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -34,51 +34,42 @@ namespace AcademicLife.Controllers
                 return NotFound();
             }
 
-            var institute = await _context.Institutes
+            var studentClassroom = await _context.StudentClassrooms
+                .Include(s => s.Classroom)
                 .SingleOrDefaultAsync(m => m.Id == id);
-            if (institute == null)
+            if (studentClassroom == null)
             {
                 return NotFound();
             }
 
-            return View(institute);
+            return View(studentClassroom);
         }
 
-        // GET: Institutes/Create
+        // GET: StudentClassrooms/Create
         public IActionResult Create()
         {
-            var universities = _context.Universities.ToList();
-            var model = new InstituteViewModel()
-            {
-                Universities = universities,
-            };
-            return View(model);
+            ViewData["ClassroomId"] = new SelectList(_context.Classrooms, "Id", "Id");
+            return View();
         }
 
-        // POST: Institutes/Create
+        // POST: StudentClassrooms/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(InstituteViewModel model)
+        public async Task<IActionResult> Create([Bind("Id,Description,StudentId,ClassroomId")] StudentClassroom studentClassroom)
         {
-            var institute = new Institute()
-            {
-                Code = model.Code,
-                Name = model.Name,
-                UniversityProvider = _context.Universities.Find(model.UniversityProviderId)
-            };
-
             if (ModelState.IsValid)
             {
-                _context.Add(institute);
+                _context.Add(studentClassroom);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(model);
+            ViewData["ClassroomId"] = new SelectList(_context.Classrooms, "Id", "Id", studentClassroom.ClassroomId);
+            return View(studentClassroom);
         }
 
-        // GET: Institutes/Edit/5
+        // GET: StudentClassrooms/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -86,22 +77,23 @@ namespace AcademicLife.Controllers
                 return NotFound();
             }
 
-            var institute = await _context.Institutes.SingleOrDefaultAsync(m => m.Id == id);
-            if (institute == null)
+            var studentClassroom = await _context.StudentClassrooms.SingleOrDefaultAsync(m => m.Id == id);
+            if (studentClassroom == null)
             {
                 return NotFound();
             }
-            return View(institute);
+            ViewData["ClassroomId"] = new SelectList(_context.Classrooms, "Id", "Id", studentClassroom.ClassroomId);
+            return View(studentClassroom);
         }
 
-        // POST: Institutes/Edit/5
+        // POST: StudentClassrooms/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Code,Name")] Institute institute)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Description,StudentId,ClassroomId")] StudentClassroom studentClassroom)
         {
-            if (id != institute.Id)
+            if (id != studentClassroom.Id)
             {
                 return NotFound();
             }
@@ -110,12 +102,12 @@ namespace AcademicLife.Controllers
             {
                 try
                 {
-                    _context.Update(institute);
+                    _context.Update(studentClassroom);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!InstituteExists(institute.Id))
+                    if (!StudentClassroomExists(studentClassroom.Id))
                     {
                         return NotFound();
                     }
@@ -126,10 +118,11 @@ namespace AcademicLife.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(institute);
+            ViewData["ClassroomId"] = new SelectList(_context.Classrooms, "Id", "Id", studentClassroom.ClassroomId);
+            return View(studentClassroom);
         }
 
-        // GET: Institutes/Delete/5
+        // GET: StudentClassrooms/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -137,30 +130,31 @@ namespace AcademicLife.Controllers
                 return NotFound();
             }
 
-            var institute = await _context.Institutes
+            var studentClassroom = await _context.StudentClassrooms
+                .Include(s => s.Classroom)
                 .SingleOrDefaultAsync(m => m.Id == id);
-            if (institute == null)
+            if (studentClassroom == null)
             {
                 return NotFound();
             }
 
-            return View(institute);
+            return View(studentClassroom);
         }
 
-        // POST: Institutes/Delete/5
+        // POST: StudentClassrooms/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var institute = await _context.Institutes.SingleOrDefaultAsync(m => m.Id == id);
-            _context.Institutes.Remove(institute);
+            var studentClassroom = await _context.StudentClassrooms.SingleOrDefaultAsync(m => m.Id == id);
+            _context.StudentClassrooms.Remove(studentClassroom);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool InstituteExists(int id)
+        private bool StudentClassroomExists(int id)
         {
-            return _context.Institutes.Any(e => e.Id == id);
+            return _context.StudentClassrooms.Any(e => e.Id == id);
         }
     }
 }
