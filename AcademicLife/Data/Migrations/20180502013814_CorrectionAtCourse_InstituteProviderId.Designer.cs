@@ -12,9 +12,10 @@ using System;
 namespace AcademicLife.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180502013814_CorrectionAtCourse_InstituteProviderId")]
+    partial class CorrectionAtCourse_InstituteProviderId
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

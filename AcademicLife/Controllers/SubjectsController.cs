@@ -71,7 +71,8 @@ namespace AcademicLife.Controllers
                 Name = model.Name,
                 Workload = model.Workload,
                 IsRequired = model.IsRequired,
-                InstituteProvider = _context.Institutes.Find(model.InstituteProviderId)
+                SemesterNumber = model.SemesterNumber,
+                InstituteProvider = _context.Institutes.Find(model.InstituteProviderId)        
             };
 
             if (ModelState.IsValid)

@@ -12,9 +12,10 @@ using System;
 namespace AcademicLife.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180430234323_RemoveUserIdAtDayOfClass")]
+    partial class RemoveUserIdAtDayOfClass
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -174,13 +175,13 @@ namespace AcademicLife.Data.Migrations
 
                     b.Property<int>("FlexibleRequiredWorkload");
 
-                    b.Property<int>("InstituteProviderId");
+                    b.Property<int?>("InstituteProviderId");
 
                     b.Property<int>("MaximumAmountSemesters");
 
                     b.Property<string>("Name");
 
-                    b.Property<int>("OfficialCurricularGradeId");
+                    b.Property<int?>("OfficialCurricularGradeId");
 
                     b.Property<int>("StandardAmountSemesters");
 
@@ -192,7 +193,8 @@ namespace AcademicLife.Data.Migrations
 
                     b.HasIndex("InstituteProviderId");
 
-                    b.HasIndex("OfficialCurricularGradeId");
+                    b.HasIndex("OfficialCurricularGradeId")
+                        .IsUnique();
 
                     b.ToTable("Courses");
                 });
@@ -201,8 +203,6 @@ namespace AcademicLife.Data.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Code");
 
                     b.Property<bool>("IsOfficial");
 
@@ -302,6 +302,8 @@ namespace AcademicLife.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<int?>("CurricularGradeId");
+
                     b.Property<string>("Description");
 
                     b.Property<bool>("IsActive");
@@ -313,6 +315,8 @@ namespace AcademicLife.Data.Migrations
                     b.Property<int?>("StudentCourseId");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CurricularGradeId");
 
                     b.HasIndex("StudentCourseId");
 
@@ -370,21 +374,15 @@ namespace AcademicLife.Data.Migrations
 
                     b.Property<string>("Code");
 
-                    b.Property<int?>("CurricularGradeId");
-
                     b.Property<int>("InstituteProviderId");
 
                     b.Property<bool>("IsRequired");
 
                     b.Property<string>("Name");
 
-                    b.Property<int>("SemesterNumber");
-
                     b.Property<int>("Workload");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CurricularGradeId");
 
                     b.HasIndex("InstituteProviderId");
 
@@ -575,13 +573,11 @@ namespace AcademicLife.Data.Migrations
 
                     b.HasOne("AcademicLife.Models.Institute", "InstituteProvider")
                         .WithMany()
-                        .HasForeignKey("InstituteProviderId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("InstituteProviderId");
 
                     b.HasOne("AcademicLife.Models.CurricularGrade", "OfficialCurricularGrade")
-                        .WithMany()
-                        .HasForeignKey("OfficialCurricularGradeId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .WithOne("Course")
+                        .HasForeignKey("AcademicLife.Models.Course", "OfficialCurricularGradeId");
                 });
 
             modelBuilder.Entity("AcademicLife.Models.DayOfClass", b =>
@@ -629,6 +625,10 @@ namespace AcademicLife.Data.Migrations
 
             modelBuilder.Entity("AcademicLife.Models.Semester", b =>
                 {
+                    b.HasOne("AcademicLife.Models.CurricularGrade")
+                        .WithMany("Semesters")
+                        .HasForeignKey("CurricularGradeId");
+
                     b.HasOne("AcademicLife.Models.StudentCourse")
                         .WithMany("PastSemesters")
                         .HasForeignKey("StudentCourseId");
@@ -664,10 +664,6 @@ namespace AcademicLife.Data.Migrations
 
             modelBuilder.Entity("AcademicLife.Models.Subject", b =>
                 {
-                    b.HasOne("AcademicLife.Models.CurricularGrade")
-                        .WithMany("Subjects")
-                        .HasForeignKey("CurricularGradeId");
-
                     b.HasOne("AcademicLife.Models.Institute", "InstituteProvider")
                         .WithMany()
                         .HasForeignKey("InstituteProviderId")

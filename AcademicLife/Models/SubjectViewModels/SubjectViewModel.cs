@@ -20,5 +20,7 @@ namespace AcademicLife.Models.SubjectViewModels
         public int InstituteProviderId { get; set; }
 
         public Institute InstituteProvider { get; set; }
+
+        public int SemesterNumber { get; set; }
     }
 }

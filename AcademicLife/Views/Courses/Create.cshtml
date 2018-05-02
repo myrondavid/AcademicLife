@@ -1,4 +1,4 @@
-﻿@model AcademicLife.Models.Course
+﻿@model AcademicLife.Models.CourseViewModels.CourseViewModel
 
 @{
     ViewData["Title"] = "Create";
@@ -57,6 +57,26 @@
                 <label asp-for="TccRequiredWorkload" class="control-label"></label>
                 <input asp-for="TccRequiredWorkload" class="form-control" />
                 <span asp-validation-for="TccRequiredWorkload" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="InstituteId" class="control-label"></label>
+                <select class="form-control" asp-for="InstituteId">
+                    @foreach (var m in Model.Institutes)
+                    {
+                        <option id="@m.Id" value="@m.Id">@m.Code | @m.Name | @m.UniversityProvider.Code</option>
+                    }
+                </select>
+                <span asp-validation-for="InstituteId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OfficialCurricularGradeId" class="control-label"></label>
+                <select class="form-control" asp-for="OfficialCurricularGradeId">
+                    @foreach (var m in Model.CurricularGrades)
+                    {
+                        <option id="@m.Id" value="@m.Id">@m.Code | @m.Name</option>
+                    }
+                </select>
+                <span asp-validation-for="OfficialCurricularGradeId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-default" />

@@ -11,7 +11,6 @@ namespace AcademicLife.Models
 
         public string Description { get; set; }
 
-        public int StudentId { get; set; }
         public ApplicationUser Student { get; set; }
 
         public int ClassroomId { get; set; }

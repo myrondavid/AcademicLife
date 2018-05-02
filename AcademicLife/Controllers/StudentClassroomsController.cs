@@ -7,22 +7,29 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AcademicLife.Data;
 using AcademicLife.Models;
+using AcademicLife.Models.StudentClassroomViewModels;
+using Microsoft.AspNetCore.Identity;
 
 namespace AcademicLife.Controllers
 {
     public class StudentClassroomsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _user;
 
-        public StudentClassroomsController(ApplicationDbContext context)
+        public StudentClassroomsController(ApplicationDbContext context, UserManager<ApplicationUser> user)
         {
             _context = context;
+            _user = user;
         }
 
         // GET: StudentClassrooms
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.StudentClassrooms.Include(s => s.Classroom);
+            var applicationDbContext = _context.StudentClassrooms
+                .Include(s => s.Classroom)
+                .Include(s => s.Classroom.ClassSubject)
+                .Include(s => s.Classroom.InstituteProvider);
             return View(await applicationDbContext.ToListAsync());
         }
 
@@ -48,8 +55,16 @@ namespace AcademicLife.Controllers
         // GET: StudentClassrooms/Create
         public IActionResult Create()
         {
-            ViewData["ClassroomId"] = new SelectList(_context.Classrooms, "Id", "Id");
-            return View();
+            var model = new StudentClassroomViewModel()
+            {
+                Classrooms = _context.Classrooms
+                    .Include(c => c.ClassSubject)
+                    .Include(c => c.ClassTeacher)
+                    .Include(c => c.InstituteProvider)
+                    .Include(c => c.InstituteProvider.UniversityProvider)
+                    .ToList()
+            };
+            return View(model);
         }
 
         // POST: StudentClassrooms/Create
@@ -57,8 +72,19 @@ namespace AcademicLife.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Description,StudentId,ClassroomId")] StudentClassroom studentClassroom)
+        public async Task<IActionResult> Create(StudentClassroomViewModel model)
         {
+            var currentUser = _context.Users.FirstOrDefault(u => u.UserName == User.Identity.Name);
+            var studentClassroom = new StudentClassroom()
+            {
+                Description = model.Description,
+                Classroom = _context.Classrooms.Find(model.ClassroomId),
+                Student = currentUser,
+                StudentMarks = new List<Mark>(),
+                StudentDayOfClasses = new List<DayOfClass>()
+
+            };
+
             if (ModelState.IsValid)
             {
                 _context.Add(studentClassroom);
@@ -66,7 +92,7 @@ namespace AcademicLife.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["ClassroomId"] = new SelectList(_context.Classrooms, "Id", "Id", studentClassroom.ClassroomId);
-            return View(studentClassroom);
+            return View(model);
         }
 
         // GET: StudentClassrooms/Edit/5

@@ -14,6 +14,8 @@ namespace AcademicLife.Models
         public int Workload { get; set; }
         public bool IsRequired { get; set; }
 
+        public int SemesterNumber { get; set; }
+
         public int InstituteProviderId { get; set; }
         public Institute InstituteProvider { get; set; }
 

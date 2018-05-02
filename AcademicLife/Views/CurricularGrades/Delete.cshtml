@@ -1,4 +1,4 @@
-﻿@model AcademicLife.Models.StudentClassroom
+﻿@model AcademicLife.Models.CurricularGrade
 
 @{
     ViewData["Title"] = "Delete";
@@ -9,20 +9,26 @@
 
 <h3>Are you sure you want to delete this?</h3>
 <div>
-    <h4>StudentClassroom</h4>
+    <h4>CurricularGrade</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Description)
+            @Html.DisplayNameFor(model => model.Code)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Description)
+            @Html.DisplayFor(model => model.Code)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.Classroom)
+            @Html.DisplayNameFor(model => model.Name)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Classroom.Id)
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.IsOfficial)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IsOfficial)
         </dd>
     </dl>
     

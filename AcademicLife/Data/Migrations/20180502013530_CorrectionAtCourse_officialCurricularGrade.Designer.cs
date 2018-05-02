@@ -12,9 +12,10 @@ using System;
 namespace AcademicLife.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180502013530_CorrectionAtCourse_officialCurricularGrade")]
+    partial class CorrectionAtCourse_officialCurricularGrade
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -174,7 +175,7 @@ namespace AcademicLife.Data.Migrations
 
                     b.Property<int>("FlexibleRequiredWorkload");
 
-                    b.Property<int>("InstituteProviderId");
+                    b.Property<int>("InstituteId");
 
                     b.Property<int>("MaximumAmountSemesters");
 
@@ -190,7 +191,7 @@ namespace AcademicLife.Data.Migrations
 
                     b.HasIndex("ApplicationUserId");
 
-                    b.HasIndex("InstituteProviderId");
+                    b.HasIndex("InstituteId");
 
                     b.HasIndex("OfficialCurricularGradeId");
 
@@ -575,7 +576,7 @@ namespace AcademicLife.Data.Migrations
 
                     b.HasOne("AcademicLife.Models.Institute", "InstituteProvider")
                         .WithMany()
-                        .HasForeignKey("InstituteProviderId")
+                        .HasForeignKey("InstituteId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("AcademicLife.Models.CurricularGrade", "OfficialCurricularGrade")

@@ -10,43 +10,56 @@
     </div>
     <div class="panel-body">
         <div class="row">
-            <div class="col-xs-6 col-sm-4">
-                <a class="bootcards-summary-item" href="/courses">
-                    <i class="fa fa-3x glyphicon glyphicon-education"></i>
-                    <h4>Cursos<span class="label label-info">10</span></h4>
-                </a>
-            </div>
-            <div class="col-xs-6 col-sm-4">
-                <a class="bootcards-summary-item" href="/teachers">
-                    <i class="fa fa-3x glyphicon glyphicon-user"></i>
-                    <h4>Professores<span class="label label-info">98</span></h4>
-                </a>
-            </div>
+
             <div class="col-xs-6 col-sm-4">
                 <a class="bootcards-summary-item" href="/universities">
                     <i class="fa fa-3x glyphicon glyphicon-tower"></i>
-                    <h4>Universidades<span class="label label-danger">54</span></h4>
+                    <h4>Universidades<span class="label label-info">@ViewData["qntUniversities"]</span></h4>
                 </a>
             </div>
+
             <div class="col-xs-6 col-sm-4">
                 <a class="bootcards-summary-item" href="/institutes">
                     <i class="fa fa-3x glyphicon glyphicon-briefcase"></i>
-                    <h4>Institutos<span class="label label-warning">109</span></h4>
+                    <h4>Institutos<span class="label label-info">@ViewData["qntInstitutes"]</span></h4>
                 </a>
             </div>
+
+            <div class="col-xs-6 col-sm-4">
+                <a class="bootcards-summary-item" href="/teachers">
+                    <i class="fa fa-3x glyphicon glyphicon-user"></i>
+                    <h4>Professores<span class="label label-info">@ViewData["qntTeachers"]</span></h4>
+                </a>
+            </div>
+
             <div class="col-xs-6 col-sm-4">
                 <a class="bootcards-summary-item" href="/subjects">
                     <i class="fa fa-3x glyphicon glyphicon-book"></i>
-                    <h4>Disciplinas<span class="label label-info">65</span></h4>
+                    <h4>Disciplinas<span class="label label-info">@ViewData["qntSubjects"]</span></h4>
+                </a>
+            </div>
+
+            <div class="col-xs-6 col-sm-4">
+                <a class="bootcards-summary-item" href="/curriculargrades">
+                    <i class="fa fa-3x glyphicon glyphicon-th-list"></i>
+                    <h4>Grades Curriculares<span class="label label-info">@ViewData["qntCurricularGrades"]</span></h4>
+                </a>
+            </div>
+
+            <div class="col-xs-6 col-sm-4">
+                <a class="bootcards-summary-item" href="/courses">
+                    <i class="fa fa-3x glyphicon glyphicon-education"></i>
+                    <h4>Cursos<span class="label label-info">@ViewData["qntCourses"]</span></h4>
                 </a>
             </div>
 
             <div class="col-xs-6 col-sm-4">
                 <a class="bootcards-summary-item" href="/classrooms">
                     <i class="fa fa-3x glyphicon glyphicon-list-alt"></i>
-                    <h4>Turmas<span class="label label-warning">109</span></h4>
+                    <h4>Turmas<span class="label label-info">@ViewData["qntClassrooms"]</span></h4>
                 </a>
             </div>
+
         </div>
     </div>
 

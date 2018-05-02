@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AcademicLife.Data;
 using AcademicLife.Models;
+using AcademicLife.Models.CourseViewModels;
 using Microsoft.AspNetCore.Authorization;
 
 namespace AcademicLife.Controllers
@@ -48,7 +49,14 @@ namespace AcademicLife.Controllers
         // GET: Courses/Create
         public IActionResult Create()
         {
-            return View();
+            var model = new CourseViewModel()
+            {
+                Institutes = _context.Institutes
+                    .Include(i => i.UniversityProvider)
+                    .ToList(),
+                CurricularGrades = _context.CurricularGrades.ToList()
+            };
+            return View(model);
         }
 
         // POST: Courses/Create
@@ -56,15 +64,30 @@ namespace AcademicLife.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Code,Name,Description,StandardAmountSemesters,MaximumAmountSemesters,CourseRequiredWorkload,ElectiveRequiredWorkload,FlexibleRequiredWorkload,TccRequiredWorkload")] Course course)
+        public async Task<IActionResult> Create(CourseViewModel model)
         {
+            var course = new Course()
+            {
+                Code = model.Code,
+                CourseRequiredWorkload = model.CourseRequiredWorkload,
+                Description = model.Description,
+                ElectiveRequiredWorkload = model.ElectiveRequiredWorkload,
+                FlexibleRequiredWorkload = model.FlexibleRequiredWorkload,
+                MaximumAmountSemesters = model.MaximumAmountSemesters,
+                Name = model.Name,
+                StandardAmountSemesters = model.StandardAmountSemesters,
+                TccRequiredWorkload = model.TccRequiredWorkload,
+                InstituteProviderId = model.InstituteId,
+                OfficialCurricularGradeId = model.OfficialCurricularGradeId,
+                Users = new List<ApplicationUser>()                            
+            };
             if (ModelState.IsValid)
             {
                 _context.Add(course);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(course);
+            return View(model);
         }
 
         // GET: Courses/Edit/5

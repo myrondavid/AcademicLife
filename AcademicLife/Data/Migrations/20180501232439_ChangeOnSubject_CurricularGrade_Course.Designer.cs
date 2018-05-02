@@ -12,9 +12,10 @@ using System;
 namespace AcademicLife.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180501232439_ChangeOnSubject_CurricularGrade_Course")]
+    partial class ChangeOnSubject_CurricularGrade_Course
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -168,19 +169,19 @@ namespace AcademicLife.Data.Migrations
 
                     b.Property<int>("CourseRequiredWorkload");
 
+                    b.Property<int>("CurricularGradeId");
+
                     b.Property<string>("Description");
 
                     b.Property<int>("ElectiveRequiredWorkload");
 
                     b.Property<int>("FlexibleRequiredWorkload");
 
-                    b.Property<int>("InstituteProviderId");
+                    b.Property<int>("InstituteId");
 
                     b.Property<int>("MaximumAmountSemesters");
 
                     b.Property<string>("Name");
-
-                    b.Property<int>("OfficialCurricularGradeId");
 
                     b.Property<int>("StandardAmountSemesters");
 
@@ -190,9 +191,9 @@ namespace AcademicLife.Data.Migrations
 
                     b.HasIndex("ApplicationUserId");
 
-                    b.HasIndex("InstituteProviderId");
+                    b.HasIndex("CurricularGradeId");
 
-                    b.HasIndex("OfficialCurricularGradeId");
+                    b.HasIndex("InstituteId");
 
                     b.ToTable("Courses");
                 });
@@ -573,14 +574,14 @@ namespace AcademicLife.Data.Migrations
                         .WithMany("Courses")
                         .HasForeignKey("ApplicationUserId");
 
-                    b.HasOne("AcademicLife.Models.Institute", "InstituteProvider")
-                        .WithMany()
-                        .HasForeignKey("InstituteProviderId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
                     b.HasOne("AcademicLife.Models.CurricularGrade", "OfficialCurricularGrade")
                         .WithMany()
-                        .HasForeignKey("OfficialCurricularGradeId")
+                        .HasForeignKey("CurricularGradeId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("AcademicLife.Models.Institute", "InstituteProvider")
+                        .WithMany()
+                        .HasForeignKey("InstituteId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

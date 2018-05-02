@@ -2,16 +2,34 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AcademicLife.Data;
+using AcademicLife.Models;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AcademicLife.Controllers
 {
     public class ManagementController : Controller
     {
+        private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _user;
+
+        public ManagementController(ApplicationDbContext context, UserManager<ApplicationUser> user)
+        {
+            _context = context;
+            _user = user;
+        }
         // GET: Management
         public ActionResult Index()
         {
+            ViewData["qntUniversities"] = _context.Universities.Count();
+            ViewData["qntTeachers"] = _context.Teachers.Count();
+            ViewData["qntCourses"] = _context.Courses.Count();
+            ViewData["qntInstitutes"] = _context.Institutes.Count();
+            ViewData["qntSubjects"] = _context.Subjects.Count();
+            ViewData["qntClassrooms"] = _context.Classrooms.Count();
+            ViewData["qntCurricularGrades"] = _context.CurricularGrades.Count();
             return View();
         }
 
