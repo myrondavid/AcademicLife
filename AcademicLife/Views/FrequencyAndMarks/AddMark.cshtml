@@ -1,0 +1,37 @@
+﻿@model AcademicLife.Models.StudentClassroomViewModels.AddMarkViewModel
+
+@{
+    ViewData["Title"] = "AddMark";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>AddMark</h2>
+
+<h4>Mark</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="AddMark">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="StudentClassroomId"/>
+            <div class="form-group">
+                <label asp-for="MarkName" class="control-label"></label>
+                <input asp-for="MarkName" class="form-control" />
+                <span asp-validation-for="MarkName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MarkDescription" class="control-label"></label>
+                <input asp-for="MarkDescription" class="form-control" />
+                <span asp-validation-for="MarkDescription" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="AddMark" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

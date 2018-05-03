@@ -1,0 +1,81 @@
+﻿@model AcademicLife.Models.StudentClassroom
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>StudentClassroom</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Turma
+        </dt>
+        <dd>
+            @Model.Classroom.Code | @Model.Classroom.ClassSubject.Name | @Model.Classroom.InstituteProvider.Code
+        </dd>
+        <dt>
+            Descrição
+        </dt>
+        <dd>
+            @Model.Description
+        </dd>
+    </dl>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-5 bootcards-list">
+                <h3>Notas</h3>
+                <div class="bootcards-list">
+                    <div class="panel panel-default">
+                        <div class="list-group">
+                            @foreach (var m in Model.StudentMarks)
+                            {
+                                <a class="list-group-item" href="#">
+                                    <h4 class="list-group-item-heading">@m.Name</h4>
+                                    <p class="list-group-item-text">@m.Description</p>
+                                    <h4 class="list-group-item-text">@m.MarkPontuation</h4>
+                                </a>
+                            }
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-sm-7 bootcards-cards">
+                <h3>Faltas</h3>
+                <div class="bootcards-list">
+                    <div class="panel panel-default">
+                        <div class="list-group">
+                            <a class="list-group-item" href="#">
+                                <img src="/images/Sofia Acey.jpg" class="img-rounded pull-left" />
+                                <h4 class="list-group-item-heading">Acey, Sofia</h4>
+                                <p class="list-group-item-text">Masung Corp.</p>
+                            </a>
+                            <a class="list-group-item" href="#">
+                                <img src="/images/Joseph Barish.jpg" class="img-rounded pull-left" />
+                                <h4 class="list-group-item-heading">Barish, Joseph</h4>
+                                <p class="list-group-item-text">Masung Corp.</p>
+                            </a>
+                            <a class="list-group-item" href="#">
+                                <img src="/images/Sarah Benson.jpg" class="img-rounded pull-left" />
+                                <h4 class="list-group-item-heading">Benson, Sarah</h4>
+                                <p class="list-group-item-text">ZetaComm</p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

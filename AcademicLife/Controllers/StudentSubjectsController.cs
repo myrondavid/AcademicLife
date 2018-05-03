@@ -7,35 +7,33 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AcademicLife.Data;
 using AcademicLife.Models;
-using AcademicLife.Models.StudentClassroomViewModels;
+using AcademicLife.Models.StudentSubjectViewModels;
 using Microsoft.AspNetCore.Identity;
 
 namespace AcademicLife.Controllers
 {
-    public class StudentClassroomsController : Controller
+    public class StudentSubjectsController : Controller
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _user;
 
-        public StudentClassroomsController(ApplicationDbContext context, UserManager<ApplicationUser> user)
+        public StudentSubjectsController(ApplicationDbContext context, UserManager<ApplicationUser> user)
         {
             _context = context;
             _user = user;
         }
 
-        // GET: StudentClassrooms
+        // GET: StudentSubjects
         public async Task<IActionResult> Index()
         {
             var currentUser = _context.Users.FirstOrDefault(u => u.UserName == User.Identity.Name);
-            var applicationDbContext = _context.StudentClassrooms
-                .Include(s => s.Classroom)
-                .Include(s => s.Classroom.ClassSubject)
-                .Include(s => s.Classroom.InstituteProvider)
+            var applicationDbContext = _context.StudentSubject
+                .Include(s => s.Subject)
                 .Where(s => s.Student.Id == currentUser.Id);
             return View(await applicationDbContext.ToListAsync());
         }
 
-        // GET: StudentClassrooms/Details/5
+        // GET: StudentSubjects/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -43,61 +41,53 @@ namespace AcademicLife.Controllers
                 return NotFound();
             }
 
-            var studentClassroom = await _context.StudentClassrooms
-                .Include(s => s.Classroom)
+            var studentSubject = await _context.StudentSubject
+                .Include(s => s.Subject)
                 .SingleOrDefaultAsync(m => m.Id == id);
-            if (studentClassroom == null)
+            if (studentSubject == null)
             {
                 return NotFound();
             }
 
-            return View(studentClassroom);
+            return View(studentSubject);
         }
 
-        // GET: StudentClassrooms/Create
+        // GET: StudentSubjects/Create
         public IActionResult Create()
         {
-            var model = new StudentClassroomViewModel()
+            var model = new StudentSubjectViewModel()
             {
-                Classrooms = _context.Classrooms
-                    .Include(c => c.ClassSubject)
-                    .Include(c => c.ClassTeacher)
-                    .Include(c => c.InstituteProvider)
-                    .Include(c => c.InstituteProvider.UniversityProvider)
-                    .ToList()
+                Subjects = _context.Subjects.Include(s => s.InstituteProvider).ToList()
             };
             return View(model);
         }
 
-        // POST: StudentClassrooms/Create
+        // POST: StudentSubjects/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(StudentClassroomViewModel model)
+        public async Task<IActionResult> Create(StudentSubjectViewModel model)
         {
             var currentUser = _context.Users.FirstOrDefault(u => u.UserName == User.Identity.Name);
-            var studentClassroom = new StudentClassroom()
+            var studentSubject = new StudentSubject()
             {
                 Description = model.Description,
-                Classroom = _context.Classrooms.Find(model.ClassroomId),
-                Student = currentUser,
-                StudentMarks = new List<Mark>(),
-                StudentDayOfClasses = new List<DayOfClass>()
-
+                SubjectDifficult = model.SubjectDifficult,
+                IsConcluded = model.IsConcluded,
+                SubjectId = model.SubjectId,
+                Student = currentUser
             };
-
             if (ModelState.IsValid)
             {
-                _context.Add(studentClassroom);
+                _context.Add(studentSubject);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ClassroomId"] = new SelectList(_context.Classrooms, "Id", "Id", studentClassroom.ClassroomId);
             return View(model);
         }
 
-        // GET: StudentClassrooms/Edit/5
+        // GET: StudentSubjects/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -105,23 +95,23 @@ namespace AcademicLife.Controllers
                 return NotFound();
             }
 
-            var studentClassroom = await _context.StudentClassrooms.SingleOrDefaultAsync(m => m.Id == id);
-            if (studentClassroom == null)
+            var studentSubject = await _context.StudentSubject.SingleOrDefaultAsync(m => m.Id == id);
+            if (studentSubject == null)
             {
                 return NotFound();
             }
-            ViewData["ClassroomId"] = new SelectList(_context.Classrooms, "Id", "Id", studentClassroom.ClassroomId);
-            return View(studentClassroom);
+            ViewData["SubjectId"] = new SelectList(_context.Subjects, "Id", "Id", studentSubject.SubjectId);
+            return View(studentSubject);
         }
 
-        // POST: StudentClassrooms/Edit/5
+        // POST: StudentSubjects/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Description,StudentId,ClassroomId")] StudentClassroom studentClassroom)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Description,SubjectId,Dificult,IsConcluded")] StudentSubject studentSubject)
         {
-            if (id != studentClassroom.Id)
+            if (id != studentSubject.Id)
             {
                 return NotFound();
             }
@@ -130,12 +120,12 @@ namespace AcademicLife.Controllers
             {
                 try
                 {
-                    _context.Update(studentClassroom);
+                    _context.Update(studentSubject);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!StudentClassroomExists(studentClassroom.Id))
+                    if (!StudentSubjectExists(studentSubject.Id))
                     {
                         return NotFound();
                     }
@@ -146,11 +136,11 @@ namespace AcademicLife.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ClassroomId"] = new SelectList(_context.Classrooms, "Id", "Id", studentClassroom.ClassroomId);
-            return View(studentClassroom);
+            ViewData["SubjectId"] = new SelectList(_context.Subjects, "Id", "Id", studentSubject.SubjectId);
+            return View(studentSubject);
         }
 
-        // GET: StudentClassrooms/Delete/5
+        // GET: StudentSubjects/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -158,31 +148,31 @@ namespace AcademicLife.Controllers
                 return NotFound();
             }
 
-            var studentClassroom = await _context.StudentClassrooms
-                .Include(s => s.Classroom)
+            var studentSubject = await _context.StudentSubject
+                .Include(s => s.Subject)
                 .SingleOrDefaultAsync(m => m.Id == id);
-            if (studentClassroom == null)
+            if (studentSubject == null)
             {
                 return NotFound();
             }
 
-            return View(studentClassroom);
+            return View(studentSubject);
         }
 
-        // POST: StudentClassrooms/Delete/5
+        // POST: StudentSubjects/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var studentClassroom = await _context.StudentClassrooms.SingleOrDefaultAsync(m => m.Id == id);
-            _context.StudentClassrooms.Remove(studentClassroom);
+            var studentSubject = await _context.StudentSubject.SingleOrDefaultAsync(m => m.Id == id);
+            _context.StudentSubject.Remove(studentSubject);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool StudentClassroomExists(int id)
+        private bool StudentSubjectExists(int id)
         {
-            return _context.StudentClassrooms.Any(e => e.Id == id);
+            return _context.StudentSubject.Any(e => e.Id == id);
         }
     }
 }

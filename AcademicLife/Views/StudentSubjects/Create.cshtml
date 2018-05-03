@@ -1,0 +1,58 @@
+﻿@model AcademicLife.Models.StudentSubjectViewModels.StudentSubjectViewModel
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Create</h2>
+
+<h4>StudentSubject</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SubjectId" class="control-label"></label>
+                <select asp-for="SubjectId" class="form-control">
+                    @foreach (var m in Model.Subjects)
+                    {
+                        <option id="@m.Id" value="@m.Id">@m.Name | @m.Code | @m.InstituteProvider.Code</option>
+                    }
+                </select>
+            </div>
+            <div class="form-group">
+                <label asp-for="SubjectDifficult" class="control-label"></label>
+                <select asp-for="SubjectDifficult" class="form-control">
+                    <option value=@Difficult.VERYEASY>Muito Fácil</option>
+                    <option value=@Difficult.EASY>Fácil</option>
+                    <option value=@Difficult.MEDIUM>Moderada</option>
+                    <option value=@Difficult.HARD>Difícil</option>
+                    <option value=@Difficult.VERYHARD>Muito Difícil</option>
+                </select>
+                <span asp-validation-for="SubjectDifficult" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="IsConcluded" /> @Html.DisplayNameFor(model => model.IsConcluded)
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

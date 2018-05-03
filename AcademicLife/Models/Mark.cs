@@ -15,7 +15,7 @@ namespace AcademicLife.Models
         private decimal markPontuation;
         public decimal MarkPontuation
         {
-            get { return markPontuation = this.Activities.Sum(a => a.Pontuation); }
+            get { return Decimal.Round(markPontuation, 2); }
             set => markPontuation = value;
         }
 

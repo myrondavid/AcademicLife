@@ -1,0 +1,52 @@
+﻿@model IEnumerable<AcademicLife.Models.StudentClassroom>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Notas e Frequência</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Descrição
+            </th>
+            <th>
+                Turma
+            </th>
+            <th>
+                Nota Geral
+            </th>
+            <th>
+                Faltas
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @item.Classroom.Code | @item.Classroom.ClassSubject.Name
+                </td>
+                <td>
+                    @item.GeneralMark
+                </td>
+                <td>
+                    @item.QntAbsences
+                </td>
+                <td>
+                    <a asp-action="AddMark" asp-route-id="@item.Id">Adicionar Nota</a> |
+                    <a>Adicionar Falta</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Detalhes</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

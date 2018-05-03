@@ -33,6 +33,7 @@ namespace AcademicLife.Controllers
             var currentUser = _context.Users.FirstOrDefault(u => u.UserName == User.Identity.Name);
             ViewData["qntCourses"] = _context.StudentCourses.Count(u => u.Student.Id == currentUser.Id);
             ViewData["qntClassrooms"] = _context.StudentClassrooms.Count(u => u.Student.Id == currentUser.Id);
+            ViewData["qntSubjects"] = _context.StudentSubject.Count(s => s.Student.Id == currentUser.Id);
             return View();
         }
 

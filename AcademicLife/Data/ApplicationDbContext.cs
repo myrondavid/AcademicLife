@@ -25,6 +25,7 @@ namespace AcademicLife.Data
         public DbSet<AcademicActivity> AcademicActivities { get; set; }
         public DbSet<Mark> Grades { get; set; }
         public DbSet<StudentClassroom> StudentClassrooms { get; set; }
+        public DbSet<StudentSubject> StudentSubjects { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options): base(options)
         {
@@ -38,5 +39,7 @@ namespace AcademicLife.Data
             builder.Entity<Mark>().HasMany(a => a.Activities);
 
         }
+
+        public DbSet<AcademicLife.Models.StudentSubject> StudentSubject { get; set; }
     }
 }

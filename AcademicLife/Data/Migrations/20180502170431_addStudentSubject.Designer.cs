@@ -12,9 +12,10 @@ using System;
 namespace AcademicLife.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180502170431_addStudentSubject")]
+    partial class addStudentSubject
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -363,30 +364,6 @@ namespace AcademicLife.Data.Migrations
                     b.ToTable("StudentCourses");
                 });
 
-            modelBuilder.Entity("AcademicLife.Models.StudentSubject", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Description");
-
-                    b.Property<bool>("IsConcluded");
-
-                    b.Property<string>("StudentId");
-
-                    b.Property<int>("SubjectDifficult");
-
-                    b.Property<int>("SubjectId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("StudentId");
-
-                    b.HasIndex("SubjectId");
-
-                    b.ToTable("StudentSubject");
-                });
-
             modelBuilder.Entity("AcademicLife.Models.Subject", b =>
                 {
                     b.Property<int>("Id")
@@ -684,18 +661,6 @@ namespace AcademicLife.Data.Migrations
                     b.HasOne("AcademicLife.Models.ApplicationUser", "Student")
                         .WithMany()
                         .HasForeignKey("StudentId");
-                });
-
-            modelBuilder.Entity("AcademicLife.Models.StudentSubject", b =>
-                {
-                    b.HasOne("AcademicLife.Models.ApplicationUser", "Student")
-                        .WithMany()
-                        .HasForeignKey("StudentId");
-
-                    b.HasOne("AcademicLife.Models.Subject", "Subject")
-                        .WithMany()
-                        .HasForeignKey("SubjectId")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("AcademicLife.Models.Subject", b =>

@@ -13,12 +13,7 @@ namespace AcademicLife.Models
         public bool IsOfficial { get; set; }
         public bool IsActive { get; set; }
         public List<Classroom> Classes { get; set; }
-        public int QntClasses
-        {
-            get
-            {
-                return Classes.Count;
-            }
-        }
+
+        public int QntClasses => Classes.Count;
     }
 }

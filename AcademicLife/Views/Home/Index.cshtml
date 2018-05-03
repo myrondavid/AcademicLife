@@ -8,40 +8,53 @@
     </div>
     <div class="panel-body">
         <div class="row">
+
             <div class="col-xs-6 col-sm-4">
                 <a class="bootcards-summary-item" href="/studentcourses">
                     <i class="fa fa-3x glyphicon glyphicon-education"></i>
                     <h4>Meus Cursos <span class="label label-info">@ViewData["qntCourses"]</span></h4>
                 </a>
             </div>
+
             <div class="col-xs-6 col-sm-4">
                 <a class="bootcards-summary-item" href="/studentclassrooms">
                     <i class="fa fa-3x glyphicon glyphicon-list-alt"></i>
                     <h4>Minhas Turmas<span class="label label-info">@ViewData["qntClassrooms"]</span></h4>
                 </a>
             </div>
+
             <div class="col-xs-6 col-sm-4">
-                <a class="bootcards-summary-item" href="#">
+                <a class="bootcards-summary-item" href="/studentsubjects">
                     <i class="fa fa-3x glyphicon glyphicon-book"></i>
-                    <h4>Disciplinas<span class="label label-info">98</span></h4>
+                    <h4>Minhas Disciplinas<span class="label label-info">@ViewData["qntSubjects"]</span></h4>
                 </a>
             </div>
+
             <div class="col-xs-6 col-sm-4">
-                <a class="bootcards-summary-item" href="#">
+                <a class="bootcards-summary-item" href="/frequencyandmarks">
                     <i class="fa fa-3x glyphicon glyphicon-stats"></i>
                     <h4>Notas e Frequência<span class="label label-danger">54</span></h4>
                 </a>
             </div>
+
             <div class="col-xs-6 col-sm-4">
                 <a class="bootcards-summary-item" href="#">
-                    <i class="fa fa-3x glyphicon glyphicon-cog"></i>
-                    <h4>Calculadora de Nota<span class="label label-info">65</span></h4>
+                    <i class="fa fa-3x glyphicon glyphicon-folder-open"></i>
+                    <h4>Histórico de Semestres<span class="label label-danger">54</span></h4>
                 </a>
             </div>
+
             <div class="col-xs-6 col-sm-4">
                 <a class="bootcards-summary-item" href="#">
                     <i class="fa fa-3x glyphicon glyphicon-tasks"></i>
                     <h4>Atividades <span class="label label-warning">109</span></h4>
+                </a>
+            </div>
+
+            <div class="col-xs-6 col-sm-4">
+                <a class="bootcards-summary-item" href="#">
+                    <i class="fa fa-3x glyphicon glyphicon-cog"></i>
+                    <h4>Calculadora de Nota<span class="label label-info">65</span></h4>
                 </a>
             </div>
         </div>
