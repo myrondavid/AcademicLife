@@ -8,10 +8,12 @@ using Microsoft.EntityFrameworkCore;
 using AcademicLife.Data;
 using AcademicLife.Models;
 using AcademicLife.Models.StudentClassroomViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 
 namespace AcademicLife.Controllers
 {
+    [Authorize]
     public class StudentClassroomsController : Controller
     {
         private readonly ApplicationDbContext _context;

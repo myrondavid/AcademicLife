@@ -2,52 +2,49 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AcademicLife.Data;
 using AcademicLife.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AcademicLife.Controllers
 {
-    [Authorize(Roles = "Administrator")]
-    public class ManagementController : Controller
+    [AllowAnonymous]
+    public class MarkCalculatorController : Controller
     {
-        private readonly ApplicationDbContext _context;
-        private readonly UserManager<ApplicationUser> _user;
-
-        public ManagementController(ApplicationDbContext context, UserManager<ApplicationUser> user)
-        {
-            _context = context;
-            _user = user;
-        }
-        // GET: Management
+        // GET: MarkCalculator
         public ActionResult Index()
         {
-            ViewData["qntUniversities"] = _context.Universities.Count();
-            ViewData["qntTeachers"] = _context.Teachers.Count();
-            ViewData["qntCourses"] = _context.Courses.Count();
-            ViewData["qntInstitutes"] = _context.Institutes.Count();
-            ViewData["qntSubjects"] = _context.Subjects.Count();
-            ViewData["qntClassrooms"] = _context.Classrooms.Count();
-            ViewData["qntCurricularGrades"] = _context.CurricularGrades.Count();
+            var model = new MarkCalculatorViewModel()
+            {
+                
+            };
             return View();
         }
 
-        // GET: Management/Details/5
+        [HttpPost]
+        public ActionResult Index(MarkCalculatorViewModel model)
+        {
+            var mAb = (model.Ab1 + model.Ab2) / 2;
+            var desiredM = model.DesiredFinalMark * 10;
+            var notaFinal = (desiredM - (6 * mAb)) / 4;
+            model.FinalMark = notaFinal;
+            return View(model);
+        }
+
+        // GET: MarkCalculator/Details/5
         public ActionResult Details(int id)
         {
             return View();
         }
 
-        // GET: Management/Create
+        // GET: MarkCalculator/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Management/Create
+        // POST: MarkCalculator/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(IFormCollection collection)
@@ -64,13 +61,13 @@ namespace AcademicLife.Controllers
             }
         }
 
-        // GET: Management/Edit/5
+        // GET: MarkCalculator/Edit/5
         public ActionResult Edit(int id)
         {
             return View();
         }
 
-        // POST: Management/Edit/5
+        // POST: MarkCalculator/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, IFormCollection collection)
@@ -87,13 +84,13 @@ namespace AcademicLife.Controllers
             }
         }
 
-        // GET: Management/Delete/5
+        // GET: MarkCalculator/Delete/5
         public ActionResult Delete(int id)
         {
             return View();
         }
 
-        // POST: Management/Delete/5
+        // POST: MarkCalculator/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, IFormCollection collection)

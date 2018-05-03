@@ -12,9 +12,10 @@ using System;
 namespace AcademicLife.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180503172640_AddAbsenceToDb")]
+    partial class AddAbsenceToDb
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -28,17 +29,23 @@ namespace AcademicLife.Data.Migrations
 
                     b.Property<DateTime>("AbsenceDate");
 
+                    b.Property<int>("ClassroomId");
+
                     b.Property<string>("Description");
 
-                    b.Property<int>("StudentClassroomId");
+                    b.Property<int?>("StudentClassroomId");
 
-                    b.Property<string>("StudentId");
+                    b.Property<int>("StudentId");
+
+                    b.Property<string>("StudentId1");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ClassroomId");
+
                     b.HasIndex("StudentClassroomId");
 
-                    b.HasIndex("StudentId");
+                    b.HasIndex("StudentId1");
 
                     b.ToTable("Absences");
                 });
@@ -580,14 +587,18 @@ namespace AcademicLife.Data.Migrations
 
             modelBuilder.Entity("AcademicLife.Models.Absence", b =>
                 {
+                    b.HasOne("AcademicLife.Models.Classroom", "Classroom")
+                        .WithMany()
+                        .HasForeignKey("ClassroomId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.HasOne("AcademicLife.Models.StudentClassroom")
                         .WithMany("Absences")
-                        .HasForeignKey("StudentClassroomId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("StudentClassroomId");
 
                     b.HasOne("AcademicLife.Models.ApplicationUser", "Student")
                         .WithMany()
-                        .HasForeignKey("StudentId");
+                        .HasForeignKey("StudentId1");
                 });
 
             modelBuilder.Entity("AcademicLife.Models.AcademicActivity", b =>

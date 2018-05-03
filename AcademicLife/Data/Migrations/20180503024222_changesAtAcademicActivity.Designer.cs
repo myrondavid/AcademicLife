@@ -12,36 +12,15 @@ using System;
 namespace AcademicLife.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180503024222_changesAtAcademicActivity")]
+    partial class changesAtAcademicActivity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn)
                 .HasAnnotation("ProductVersion", "2.0.1-rtm-125");
-
-            modelBuilder.Entity("AcademicLife.Models.Absence", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime>("AbsenceDate");
-
-                    b.Property<string>("Description");
-
-                    b.Property<int>("StudentClassroomId");
-
-                    b.Property<string>("StudentId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("StudentClassroomId");
-
-                    b.HasIndex("StudentId");
-
-                    b.ToTable("Absences");
-                });
 
             modelBuilder.Entity("AcademicLife.Models.AcademicActivity", b =>
                 {
@@ -292,15 +271,11 @@ namespace AcademicLife.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("AbsenceId");
-
                     b.Property<string>("Content");
 
                     b.Property<int?>("DayOfClassId");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AbsenceId");
 
                     b.HasIndex("DayOfClassId");
 
@@ -578,18 +553,6 @@ namespace AcademicLife.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("AcademicLife.Models.Absence", b =>
-                {
-                    b.HasOne("AcademicLife.Models.StudentClassroom")
-                        .WithMany("Absences")
-                        .HasForeignKey("StudentClassroomId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("AcademicLife.Models.ApplicationUser", "Student")
-                        .WithMany()
-                        .HasForeignKey("StudentId");
-                });
-
             modelBuilder.Entity("AcademicLife.Models.AcademicActivity", b =>
                 {
                     b.HasOne("AcademicLife.Models.Mark", "Mark")
@@ -687,10 +650,6 @@ namespace AcademicLife.Data.Migrations
 
             modelBuilder.Entity("AcademicLife.Models.Lesson", b =>
                 {
-                    b.HasOne("AcademicLife.Models.Absence")
-                        .WithMany("LostLessons")
-                        .HasForeignKey("AbsenceId");
-
                     b.HasOne("AcademicLife.Models.DayOfClass")
                         .WithMany("Lessons")
                         .HasForeignKey("DayOfClassId");

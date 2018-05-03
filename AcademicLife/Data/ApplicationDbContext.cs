@@ -26,8 +26,13 @@ namespace AcademicLife.Data
         public DbSet<Mark> Grades { get; set; }
         public DbSet<StudentClassroom> StudentClassrooms { get; set; }
         public DbSet<StudentSubject> StudentSubjects { get; set; }
+        public DbSet<Absence> Absences { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options): base(options)
+        {
+        }
+
+        public ApplicationDbContext()
         {
         }
 

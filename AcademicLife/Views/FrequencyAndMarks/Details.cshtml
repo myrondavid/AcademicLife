@@ -51,21 +51,14 @@
                 <div class="bootcards-list">
                     <div class="panel panel-default">
                         <div class="list-group">
-                            <a class="list-group-item" href="#">
-                                <img src="/images/Sofia Acey.jpg" class="img-rounded pull-left" />
-                                <h4 class="list-group-item-heading">Acey, Sofia</h4>
-                                <p class="list-group-item-text">Masung Corp.</p>
-                            </a>
-                            <a class="list-group-item" href="#">
-                                <img src="/images/Joseph Barish.jpg" class="img-rounded pull-left" />
-                                <h4 class="list-group-item-heading">Barish, Joseph</h4>
-                                <p class="list-group-item-text">Masung Corp.</p>
-                            </a>
-                            <a class="list-group-item" href="#">
-                                <img src="/images/Sarah Benson.jpg" class="img-rounded pull-left" />
-                                <h4 class="list-group-item-heading">Benson, Sarah</h4>
-                                <p class="list-group-item-text">ZetaComm</p>
-                            </a>
+                            @foreach (var m in Model.Absences)
+                            {
+                                <a class="list-group-item" href="#">
+                                    <h4 class="list-group-item-heading">@m.AbsenceDate.Date</h4>
+                                    <p class="list-group-item-text">@m.Description</p>
+                                </a>
+                            }
+
                         </div>
                     </div>
                 </div>

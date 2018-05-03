@@ -8,9 +8,11 @@ using Microsoft.EntityFrameworkCore;
 using AcademicLife.Data;
 using AcademicLife.Models;
 using AcademicLife.Models.InstituteViewModels;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AcademicLife.Controllers
 {
+    [Authorize(Roles = "Administrator")]
     public class InstitutesController : Controller
     {
         private readonly ApplicationDbContext _context;

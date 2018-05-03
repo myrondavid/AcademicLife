@@ -8,10 +8,12 @@ using Microsoft.EntityFrameworkCore;
 using AcademicLife.Data;
 using AcademicLife.Models;
 using AcademicLife.Models.SubjectViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 
 namespace AcademicLife.Controllers
 {
+    [Authorize(Roles = "Administrator")]
     public class SubjectsController : Controller
     {
         private readonly ApplicationDbContext _context;

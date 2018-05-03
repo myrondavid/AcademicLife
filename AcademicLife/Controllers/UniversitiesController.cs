@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AcademicLife.Data;
 using AcademicLife.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AcademicLife.Controllers
 {
+    [Authorize(Roles = "Administrator")]
     public class UniversitiesController : Controller
     {
         private readonly ApplicationDbContext _context;

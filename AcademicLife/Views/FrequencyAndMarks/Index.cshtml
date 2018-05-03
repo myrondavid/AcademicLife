@@ -42,9 +42,9 @@
                     @item.QntAbsences
                 </td>
                 <td>
-                    <a asp-action="AddMark" asp-route-id="@item.Id">Adicionar Nota</a> |
-                    <a>Adicionar Falta</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Detalhes</a>
+                    <a asp-action="AddMark" asp-route-id="@item.Id" class="btn btn-default">Adicionar Nota</a>
+                    <a asp-action="AddAbsence" asp-route-id="@item.Id" class="btn btn-default">Adicionar Falta</a>
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-default">Detalhes</a>
                 </td>
             </tr>
         }

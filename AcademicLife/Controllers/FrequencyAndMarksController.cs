@@ -8,11 +8,13 @@ using Microsoft.EntityFrameworkCore;
 using AcademicLife.Data;
 using AcademicLife.Models;
 using AcademicLife.Models.StudentClassroomViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.WebEncoders.Testing;
 
 namespace AcademicLife.Controllers
 {
+    [Authorize]
     public class FrequencyAndMarksController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -34,6 +36,7 @@ namespace AcademicLife.Controllers
                 .Include(s => s.Classroom.ClassSubject)
                 .Include(s => s.StudentDayOfClasses)
                 .Include(s => s.StudentMarks)
+                .Include(s => s.Absences)
                 .Where(s => s.Student.Id == currentUser.Id)
                 .Where(s => s.Classroom.IsActive == true);
             return View(await applicationDbContext.ToListAsync());
@@ -53,6 +56,7 @@ namespace AcademicLife.Controllers
                 .Include(s => s.StudentDayOfClasses)
                 .Include(s => s.StudentMarks)
                 .Include(s => s.Classroom.InstituteProvider)
+                .Include(s => s.Absences)
                 .SingleOrDefaultAsync(m => m.Id == id);
             
             if (studentClassroom == null)
@@ -150,8 +154,70 @@ namespace AcademicLife.Controllers
             return View(model);
         }
 
-        //GET: FrequencyAndMarks/AddDayOfClass/5
-        //POST: FrequencyAndMarks/AddDayOfClass/5
+        //GET: FrequencyAndMarks/Addabsence/5
+        public async Task<IActionResult> AddAbsence(int? id)
+        {
+            var studentClassroom = await _context.StudentClassrooms.SingleOrDefaultAsync(m => m.Id == id);
+            if (studentClassroom == null)
+            {
+                return NotFound();
+            }
+
+            var model = new AddAbsenceViewModel()
+            {
+                StudentClassroomId = (int)id
+            };
+
+            return View(model);
+        }
+        //POST: FrequencyAndMarks/AddAbsence/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddAbsence(int id, AddAbsenceViewModel model)
+        {
+            var currentUser = _context.Users.FirstOrDefault(u => u.UserName == User.Identity.Name);
+            if (id != model.StudentClassroomId)
+                return NotFound();
+
+            var studentClassroom = _context.StudentClassrooms
+                .Include(s => s.Absences)
+                .SingleOrDefault(s => s.Id == id);
+
+            if (studentClassroom == null)
+                return NotFound();
+
+            var absence = new Absence()
+            {
+                Description = model.Description,
+                AbsenceDate = model.AbsenceDate,
+                StudentClassroomId = model.StudentClassroomId,
+                Student = currentUser,
+                LostLessons = new List<Lesson>()
+            };
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    studentClassroom.Absences.Add(absence);
+                    _context.Update(studentClassroom);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!StudentClassroomExists(studentClassroom.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return View(model);
+        }
 
         // GET: FrequencyAndMarks/Edit/5
         public async Task<IActionResult> Edit(int? id)

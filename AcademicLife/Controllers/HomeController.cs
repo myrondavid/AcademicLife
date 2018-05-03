@@ -34,6 +34,21 @@ namespace AcademicLife.Controllers
             ViewData["qntCourses"] = _context.StudentCourses.Count(u => u.Student.Id == currentUser.Id);
             ViewData["qntClassrooms"] = _context.StudentClassrooms.Count(u => u.Student.Id == currentUser.Id);
             ViewData["qntSubjects"] = _context.StudentSubject.Count(s => s.Student.Id == currentUser.Id);
+
+            var studentClass = _context.StudentClassrooms
+                .Where(u => u.Student.Id == currentUser.Id);
+            foreach (var item in studentClass)
+            {
+                var marks = _context.Grades.Where(s => s.StudentClassroomId == item.Id);
+                item.StudentMarks = marks.ToList();
+            }
+
+            ViewData["qntClassroomsBadMarks"] = studentClass.Count(s => s.GeneralMark < (decimal)7);
+            ViewData["qntClassroomsGoodMarks"] = studentClass.Count(s => s.GeneralMark >= (decimal)7);
+
+            ViewData["qntActivities"] = _context.AcademicActivities
+                .Include(s => s.StudentClassroom.Student)
+                .Count(u => u.StudentClassroom.Student.Id == currentUser.Id);
             return View();
         }
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using AcademicLife.Data;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -13,6 +14,7 @@ using Microsoft.Extensions.Options;
 using AcademicLife.Models;
 using AcademicLife.Models.AccountViewModels;
 using AcademicLife.Services;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace AcademicLife.Controllers
 {

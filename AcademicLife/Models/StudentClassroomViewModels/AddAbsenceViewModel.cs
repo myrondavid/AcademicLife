@@ -3,20 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace AcademicLife.Models
+namespace AcademicLife.Models.StudentClassroomViewModels
 {
-    public class Absence
+    public class AddAbsenceViewModel
     {
-        public int Id { get; set; }
         public string Description { get; set; }
-
-        public ApplicationUser Student { get; set; }
 
         public int StudentClassroomId { get; set; }
 
         public DateTime AbsenceDate { get; set; }
 
         public List<Lesson> LostLessons { get; set; }
-
     }
 }

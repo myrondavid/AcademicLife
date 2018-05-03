@@ -11,11 +11,27 @@ namespace AcademicLife.Models
         public string Name { get; set; }
         public string Description { get; set; }
         public List<AcademicActivity> Activities { get; set; }
+        public int StudentClassroomId { get; set; }
 
         private decimal markPontuation;
         public decimal MarkPontuation
         {
-            get { return Decimal.Round(markPontuation, 2); }
+            get
+            {
+                if (Activities != null)
+                {
+                    decimal total = 0;
+                    foreach (var a in Activities)
+                    {
+                        total += a.Pontuation;
+                    }
+
+                    var actCount = Activities.Count;
+                    if (actCount == 0) markPontuation = total;
+                    else markPontuation = total / Activities.Count;
+                }             
+                return Decimal.Round(markPontuation, 2);
+            }
             set => markPontuation = value;
         }
 

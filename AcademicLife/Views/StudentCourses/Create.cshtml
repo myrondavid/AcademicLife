@@ -5,9 +5,9 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Create</h2>
+<h2>Cadastre-se em um curso</h2>
 
-<h4>StudentCourse</h4>
+<h4>Meus Cursos</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -31,13 +31,13 @@
                 <span asp-validation-for="CourseId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Cadastrar-se" class="btn btn-default" />
+                <input type="submit" value="Cadastrar-se" class="btn btn-success" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index" class="btn btn-default">Voltar</a>
 </div>
 

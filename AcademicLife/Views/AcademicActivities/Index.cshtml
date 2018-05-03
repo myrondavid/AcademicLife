@@ -1,0 +1,66 @@
+﻿@model AcademicLife.Models.AcademicActivityViewModels.AcademicActivityViewModel
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Atividades</h2>
+
+<p>
+    <form asp-action="Create" method="get">
+        <select asp-for="StudentClassroomId" class="form-control">
+            @foreach (var m in Model.StudentClassrooms)
+            {
+            <option id="@m.Id" value="@m.Id">@m.Classroom.Code | @m.Classroom.ClassSubject.Name | @m.Classroom.InstituteProvider.Code</option>
+            }
+        </select>
+        <input type="submit" class="btn btn-default" value="Adicionar atividade para turma selecionada"/>
+    </form>
+    
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Atividade
+            </th>
+            <th>
+                Nota da Atividade
+            </th>
+            <th>
+                Nota que compõe
+            </th>
+            <th>
+                Turma
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.AcademicActivities)
+        {
+            <tr>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Pontuation)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Mark.Name)
+                </td>
+                <td>
+                    @item.StudentClassroom.Classroom.ClassSubject.Name | @item.StudentClassroom.Classroom.Code | @item.StudentClassroom.Classroom.InstituteProvider.Code
+
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-default">Edit</a>
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-default">Details</a>
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
